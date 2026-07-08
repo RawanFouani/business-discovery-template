@@ -2,844 +2,747 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Copper Cortex — Business Discovery & Solution Design Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Discovery Canvas</title>
     <style>
-        *, *::before, *::after {
+        :root {
+            --primary-color: #1e293b;
+            --accent-color: #ea580c; /* Corporate Orange */
+            --border-color: #cbd5e1;
+            --bg-light: #f8fafc;
+            --text-main: #334155;
+            --white: #ffffff;
+        }
+
+        * {
             box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.5;
-            color: #333333;
-            background-color: #f4f6f8;
+            background-color: #f1f5f9;
+            color: var(--text-main);
             margin: 0;
-            padding: 40px 20px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #ffffff;
+
+        .canvas-container {
+            background-color: var(--white);
+            max-width: 950px;
+            width: 100%;
             padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
+
         header {
-            border-bottom: 3px solid #d06a4c;
+            border-bottom: 3px solid var(--accent-color);
             padding-bottom: 20px;
             margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .logo-text {
+
+        .header-title h1 {
+            color: var(--primary-color);
+            margin: 0 0 5px 0;
+            font-size: 28px;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title p {
+            margin: 0;
+            color: #64748b;
             font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #d06a4c;
+        }
+
+        .company-logo {
             font-weight: bold;
-            margin: 0;
+            font-size: 18px;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+            border: 2px dashed var(--accent-color);
+            padding: 5px 15px;
+            border-radius: 6px;
         }
-        h1 {
-            font-size: 26px;
-            color: #1a2a3a;
-            margin: 5px 0 10px 0;
+
+        .section-block {
+            margin-bottom: 20px;
         }
-        .purpose-box {
-            background-color: #fdf6f4;
-            border-left: 4px solid #d06a4c;
-            padding: 15px 20px;
-            margin-bottom: 35px;
-            border-radius: 0 4px 4px 0;
-        }
-        .purpose-box p {
-            margin: 0;
+
+        /* Flexible spacing block between sections */
+        .block-spacing {
+            min-height: 54px; 
+            margin: 20px 0;
+            padding: 12px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 6px;
+            background-color: #f8fafc88;
             font-size: 14px;
-            color: #4a5568;
+            color: #475569;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .block-spacing:focus {
+            border-color: var(--accent-color);
+            background-color: var(--white);
+        }
+        
+        .block-spacing:empty::before {
+            content: attr(placeholder);
+            color: #94a3b8;
             font-style: italic;
         }
-        h2 {
-            font-size: 18px;
-            color: #1a2a3a;
-            background-color: #f1f5f9;
+
+        .section-title {
+            background-color: var(--primary-color);
+            color: var(--white);
             padding: 10px 15px;
-            margin-top: 35px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            border-left: 5px solid #2c3e50;
-        }
-        h3 {
-            font-size: 14px;
-            color: #d06a4c;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px 6px 0 0;
+            margin: 0;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-top: 25px;
-            margin-bottom: 10px;
         }
-        p {
-            font-size: 14px;
-            margin-top: 0;
+
+        .section-content {
+            border: 1px solid var(--border-color);
+            border-top: none;
+            padding: 20px;
+            border-radius: 0 0 6px 6px;
+            background-color: var(--bg-light);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
             margin-bottom: 15px;
         }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #475569;
+        }
+
+        /* Auto-growing Container Setup */
+        .grow-wrap {
+            display: grid;
+        }
+        .grow-wrap::after {
+            content: attr(data-replicated-value) " ";
+            white-space: pre-wrap;
+            visibility: hidden;
+            word-break: break-word;
+        }
+        .grow-wrap > textarea {
+            resize: none;
+            overflow: hidden;
+        }
+        .grow-wrap > textarea, .grow-wrap::after {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            grid-area: 1 / 1 / 2 / 2;
+            background-color: var(--white);
+            font-family: inherit;
+            line-height: 1.5;
+            min-height: 42px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--text-main);
+            background-color: var(--white);
+        }
+
+        /* Table Input Formatting */
+        table td .grow-wrap > textarea, table td .grow-wrap::after {
+            padding: 6px;
+            font-size: 13px;
+            border-radius: 4px;
+            min-height: 32px;
+        }
+
+        input:focus, select:focus, .grow-wrap > textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+        }
+
+        .workflow-container {
+            background-color: var(--white);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .workflow-visual {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .workflow-step-box {
+            min-width: 130px;
+            text-align: center;
+        }
+
+        .step-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .workflow-step-box input {
+            text-align: center;
+            font-weight: 600;
+            padding: 8px;
+            font-size: 13px;
+            border-color: #94a3b8;
+        }
+
+        .workflow-arrow {
+            font-size: 20px;
+            color: #94a3b8;
+            user-select: none;
+            font-weight: bold;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 25px;
-            font-size: 13px;
+            margin-top: 10px;
+            background-color: var(--white);
         }
+
         th, td {
-            border: 1px solid #e2e8f0;
-            padding: 10px 12px;
-            text-align: left;
-            vertical-align: top;
-        }
-        th {
-            background-color: #f8fafc;
-            color: #334155;
-            font-weight: 600;
-        }
-        .field-col {
-            width: 25%;
-            font-weight: 600;
-            background-color: #f8fafc;
-        }
-        .value-col {
-            width: 75%;
-        }
-        .form-control {
-            width: 100%;
-            min-height: 60px;
-            border: 1px solid #e2e8f0;
-            background-color: #fafafa;
-            border-radius: 4px;
+            border: 1px solid var(--border-color);
             padding: 10px;
             font-size: 13px;
-            color: #718096;
+            text-align: left;
+            vertical-align: middle;
         }
-        .form-control-inline {
-            width: 100%;
-            border: none;
-            background: transparent;
-            font-size: 13px;
-            color: #333;
-            outline: none;
+
+        th {
+            background-color: #e2e8f0;
+            color: var(--primary-color);
+            font-weight: 600;
         }
-        .checkbox-group {
-            margin-bottom: 20px;
-        }
-        .checkbox-item {
-            display: inline-block;
-            width: 48%;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-        .checkbox-item input {
-            margin-right: 8px;
-        }
-        .bullet-list {
-            list-style: none;
-            padding-left: 0;
-            margin: 0 0 20px 0;
-        }
-        .bullet-list li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-        .bullet-list li::before {
-            content: "•";
-            color: #d06a4c;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-        .text-line {
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 4px;
-            margin-bottom: 15px;
-            color: #718096;
-            font-size: 13px;
-        }
-        .footer-note {
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
+
+        .text-center {
             text-align: center;
+        }
+
+        .btn-add {
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            padding: 7px 14px;
             font-size: 12px;
-            color: #718096;
-            font-style: italic;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 12px;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .btn-add:hover {
+            background-color: #c2410c;
+        }
+
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background-color: #64748b;
+            color: var(--white);
+        }
+
+        @media print {
+            body {
+                background-color: var(--white);
+                padding: 0;
+            }
+            .canvas-container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .actions, .btn-add {
+                display: none;
+            }
+            input, select, .grow-wrap > textarea {
+                border: none;
+                border-bottom: 1px solid #94a3b8;
+                border-radius: 0;
+                padding: 4px 0;
+                background: transparent;
+            }
+            .section-title {
+                background-color: #e2e8f0 !important;
+                color: var(--primary-color) !important;
+                border-bottom: 2px solid var(--primary-color);
+            }
+            .section-content {
+                background-color: transparent !important;
+                border: none;
+                padding: 15px 0;
+            }
+            .block-spacing {
+                border: none;
+                border-bottom: 1px dashed #cbd5e1;
+                background-color: transparent;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div class="logo-text">Copper Cortex</div>
-        <h1>Business Discovery & Solution Design Template</h1>
-    </header>
+<div class="canvas-container">
+    <form id="discoveryForm">
+        <header>
+            <div class="header-title">
+                <h1>Business Discovery Canvas</h1>
+                <p>Copper Cortex Discovery & Project Alignment Framework</p>
+            </div>
+            <div class="company-logo">COPPER CORTEX</div>
+        </header>
 
-    <div class="purpose-box">
-        <p><strong>Purpose:</strong> This document is used during the first discovery meeting with a new client. Its objective is not to define software features immediately—it is to fully understand how the business operates, where problems exist, and what success looks like before any solution is proposed.</p>
-    </div>
+        <!-- SECTION 1 -->
+        <div class="section-block">
+            <h2 class="section-title">1. Company Overview</h2>
+            <div class="section-content">
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="compName">Company Name</label>
+                        <input type="text" id="compName" placeholder="e.g. Acme Corp">
+                    </div>
+                    <div class="form-group">
+                        <label for="industry">Industry</label>
+                        <input type="text" id="industry" placeholder="e.g. Logistics, E-commerce">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPerson">Contact Person</label>
+                        <input type="text" id="contactPerson" placeholder="Full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position / Title</label>
+                        <input type="text" id="position" placeholder="e.g. Operations Director">
+                    </div>
+                    <div class="form-group">
+                        <label for="meetingDate">Meeting Date</label>
+                        <input type="date" id="meetingDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="ccLead">Copper Cortex Lead</label>
+                        <input type="text" id="ccLead" placeholder="Consultant name">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="bizOverview">Business Overview (What do you do? Who are your customers? Core value?)</label>
+                        <div class="grow-wrap">
+                            <textarea id="bizOverview" placeholder="Briefly describe the business model..." oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mainProduct">Main Product / Service</label>
+                        <input type="text" id="mainProduct" placeholder="Primary offering">
+                    </div>
+                    <div class="form-group">
+                        <label for="primaryCustomers">Primary Customers</label>
+                        <input type="text" id="primaryCustomers" placeholder="B2B, B2C, SMBs, Enterprise">
+                    </div>
+                    <div class="form-group">
+                        <label for="empSize">Company Size (Employees)</label>
+                        <input type="number" id="empSize" placeholder="Number of employees">
+                    </div>
+                    <div class="form-group">
+                        <label for="branches">Branches / Locations</label>
+                        <input type="number" id="branches" placeholder="Number of branches">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="regions">Operating Regions</label>
+                        <input type="text" id="regions" placeholder="e.g. Domestic, NA, EMEA, Global">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- 1. Client & Project Overview -->
-    <h2>1. Client & Project Overview</h2>
-    <h3>General Information</h3>
-    <table>
-        <tr>
-            <td class="field-col">Company Name</td>
-            <td class="value-col"></td>
-        </tr>
-        <tr>
-            <td class="field-col">Industry</td>
-            <td class="value-col"></td>
-        </tr>
-        <tr>
-            <td class="field-col">Website</td>
-            <td class="value-col"></td>
-        </tr>
-        <tr>
-            <td class="field-col">Meeting Date</td>
-            <td class="value-col"></td>
-        </tr>
-        <tr>
-            <td class="field-col">Discovery Session #</td>
-            <td class="value-col"></td>
-        </tr>
-        <tr>
-            <td class="field-col">Copper Cortex Lead</td>
-            <td class="value-col"></td>
-        </tr>
-        <tr>
-            <td class="field-col">Client Contact(s)</td>
-            <td class="value-col"></td>
-        </tr>
-        <tr>
-            <td class="field-col">Position(s)</td>
-            <td class="value-col"></td>
-        </tr>
-        <tr>
-            <td class="field-col">Email(s)</td>
-            <td class="value-col"></td>
-        </tr>
-        <tr>
-            <td class="field-col">Phone</td>
-            <td class="value-col"></td>
-        </tr>
-    </table>
+        <!-- TWO-LINE ADJUSTABLE NOTES BLOCK -->
+        <div class="block-spacing" contenteditable="true" placeholder="[Click here to add extra lines/unmentioned data relative to Section 1]"></div>
 
-    <h3>Executive Summary</h3>
-    <p><strong>What does this business actually do?</strong></p>
-    <div class="form-control">[Core Mission: Describe what the company exists to do.]</div>
+        <!-- SECTION 2 -->
+        <div class="section-block">
+            <h2 class="section-title">2. Business Operations</h2>
+            <div class="section-content">
+                
+                <div class="workflow-container">
+                    <label>Workflow Sequence (High-Level Progression)</label>
+                    <div class="workflow-visual" id="workflowVisualStrip">
+                        <div class="workflow-step-box">
+                            <span class="step-label">Step 1</span>
+                            <input type="text" placeholder="e.g., Order Lead">
+                        </div>
+                        <div class="workflow-arrow">&rarr;</div>
+                        <div class="workflow-step-box">
+                            <span class="step-label">Step 2</span>
+                            <input type="text" placeholder="e.g., Processing">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add" onclick="addNewWorkflowStep()">+ Add Next Step</button>
+                </div>
 
-    <h3 style="margin-top:15px;">Primary Value Proposition</h3>
-    <p>Why do customers choose them over competitors?</p>
-    <div class="form-control"></div>
+                <label style="margin-top: 15px; display: block;">Detailed Step-by-Step Breakdown</label>
+                <table id="detailedStepsTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;" class="text-center">Step</th>
+                            <th style="width: 220px;">Department</th>
+                            <th style="width: 220px;">Who Does This Step? (Role)</th>
+                            <th>How is it Performed? (Process Details & Tools)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center"><b>1</b></td>
+                            <td><input type="text" placeholder="e.g. Sales"></td>
+                            <td><input type="text" placeholder="e.g. Account Executive"></td>
+                            <td>
+                                <div class="grow-wrap">
+                                    <textarea placeholder="Process Details..." oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn-add" onclick="addNewTableRow('detailedStepsTable', true)">+ Add Step Row</button>
 
-    <h3>Main Products / Services</h3>
-    <div class="text-line">[ ] </div>
-    <div class="text-line">[ ] </div>
-    <div class="text-line">[ ] </div>
+                <label style="margin-top: 25px; margin-bottom: 10px; display: block;">Business Ecosystem (External Parties Involved)</label>
+                <table id="ecosystemTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 200px;">External Party</th>
+                            <th>Role / Connection to the Process</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" value="Customers" style="font-weight:bold;"></td>
+                            <td>
+                                <div class="grow-wrap">
+                                    <textarea placeholder="Place orders, track deliveries..." oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" value="Suppliers" style="font-weight:bold;"></td>
+                            <td>
+                                <div class="grow-wrap">
+                                    <textarea placeholder="Provide raw materials, API endpoints..." oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn-add" onclick="addNewEcosystemRow()">+ Add Ecosystem Row</button>
+            </div>
+        </div>
 
-    <h3>Target Customers</h3>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Consumers (B2C)</div>
-        <div class="checkbox-item"><input type="checkbox"> Businesses (B2B)</div>
-        <div class="checkbox-item"><input type="checkbox"> Government</div>
-        <div class="checkbox-item"><input type="checkbox"> Internal Organization</div>
-        <div class="checkbox-item"><input type="checkbox"> Other: ____________________</div>
-    </div>
-    <p><strong>Describe:</strong></p>
-    <div class="form-control"></div>
+        <!-- TWO-LINE ADJUSTABLE NOTES BLOCK -->
+        <div class="block-spacing" contenteditable="true" placeholder="[Click here to add extra lines/unmentioned data relative to Section 2]"></div>
 
-    <h3>Business Scale</h3>
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 50%;">Question</th>
-                <th style="width: 50%;">Answer</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>Number of Employees</td><td></td></tr>
-            <tr><td>Number of Locations</td><td></td></tr>
-            <tr><td>Countries Served</td><td></td></tr>
-            <tr><td>Approximate Customers</td><td></td></tr>
-            <tr><td>Daily Transactions</td><td></td></tr>
-            <tr><td>Monthly Orders/Projects</td><td></td></tr>
-        </tbody>
-    </table>
+        <!-- SECTION 3 -->
+        <div class="section-block">
+            <h2 class="section-title">3. People & Users</h2>
+            <div class="section-content">
+                <label style="margin-bottom: 10px;">Department & User Breakdown</label>
+                <table id="peopleBreakdownTable">
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Role / Position</th>
+                            <th>Main Responsibility</th>
+                            <th style="width: 130px;" class="text-center">Use Solution?</th>
+                            <th style="width: 130px;" class="text-center">Tech Level</th>
+                            <th>Current Tools Used</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" placeholder="e.g. Warehouse"></td>
+                            <td><input type="text" placeholder="e.g. Operator"></td>
+                            <td>
+                                <div class="grow-wrap">
+                                    <textarea placeholder="Picking & packing" oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <select>
+                                    <option value="">Select...</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select>
+                                    <option value="">Select...</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </td>
+                            <td><input type="text" placeholder="Excel, Paper"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn-add" onclick="addNewPeopleRow()">+ Add User Row</button>
 
-    <!-- 2. Business Understanding -->
-    <h2>2. Business Understanding</h2>
-    <p><em>Tell us your business story.</em></p>
-    
-    <h3>How did the business start?</h3>
-    <div class="form-control"></div>
+                <div class="form-group full-width" style="margin-top: 20px;">
+                    <label for="workarounds">Current Workarounds (Are important processes handled manually/via quick hacks?)</label>
+                    <div class="grow-wrap">
+                        <textarea id="workarounds" placeholder="e.g. Manually copy-pasting tracking links into WhatsApp group chats..." oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <h3>How does the business make money?</h3>
-    <div class="form-control"></div>
+        <!-- TWO-LINE ADJUSTABLE NOTES BLOCK -->
+        <div class="block-spacing" contenteditable="true" placeholder="[Click here to add extra lines/unmentioned data relative to Section 3]"></div>
 
-    <h3>What makes your operation unique?</h3>
-    <div class="form-control"></div>
+        <!-- SECTION 4 -->
+        <div class="section-block">
+            <h2 class="section-title">4. Pain Points & Operational Challenges</h2>
+            <div class="section-content">
+                <label style="margin-bottom: 10px;">Identify core difficulties slowing the workflow down</label>
+                <table id="painPointsTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 200px;">Area / Process</th>
+                            <th>Current Problem / Bottleneck</th>
+                            <th>Impact on Business</th>
+                            <th style="width: 120px;" class="text-center">Priority (1-5)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" placeholder="e.g. Fulfillment"></td>
+                            <td>
+                                <div class="grow-wrap">
+                                    <textarea placeholder="Manual tracking update lag" oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="grow-wrap">
+                                    <textarea placeholder="High customer support call volumes" oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <select class="text-center">
+                                    <option value="">-</option>
+                                    <option value="1">1 (Low)</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5 (Critical)</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn-add" onclick="addNewPainPointRow()">+ Add Pain Point Row</button>
+            </div>
+        </div>
 
-    <h3>If you had to explain your business to a new employee in 5 minutes, what would you say?</h3>
-    <div class="form-control"></div>
+        <!-- TWO-LINE ADJUSTABLE NOTES BLOCK -->
+        <div class="block-spacing" contenteditable="true" placeholder="[Click here to add extra lines/unmentioned data relative to Section 4]"></div>
 
-    <!-- 3. Current State & Process Mapping -->
-    <h2>3. Current State & Process Mapping</h2>
-    <h3>End-to-End Workflow Journey</h3>
-    <p><strong>Objective:</strong> Understand exactly how work moves through the business today.</p>
-    
-    <table style="font-size: 11px;">
-        <thead>
-            <tr>
-                <th style="width: 5%;">Step</th>
-                <th style="width: 25%;">Process Description</th>
-                <th style="width: 15%;">Who Performs It?</th>
-                <th style="width: 15%;">Inputs</th>
-                <th style="width: 15%;">Outputs</th>
-                <th style="width: 15%;">Current Tool</th>
-                <th style="width: 5%;">Manual?</th>
-                <th style="width: 10%;">Time Req.</th>
-                <th style="width: 20%;">Pain Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        </tbody>
-    </table>
+        <!-- SECTION 5 -->
+        <div class="section-block">
+            <h2 class="section-title">5. Desired Solution</h2>
+            <div class="section-content">
+                <div class="form-group full-width">
+                    <label for="idealSolution">Solution Vision</label>
+                    <div class="grow-wrap">
+                        <textarea id="idealSolution" placeholder="Describe the solution you imagine would improve your current business process..." oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group full-width" style="margin-top: 15px;">
+                    <label for="considerations">Considerations</label>
+                    <div class="grow-wrap">
+                        <textarea id="considerations" placeholder="Is there anything we should consider before building a solution? (Constraints, dependencies, timelines, or context...)" oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <h3>Process Walkthrough Questions</h3>
-    <p><em>For each process ask:</em></p>
-    <ul class="bullet-list">
-        <li>What starts this process?</li>
-        <li>Who is responsible?</li>
-        <li>Who approves?</li>
-        <li>What information is needed?</li>
-        <li>What happens next?</li>
-        <li>What exceptions exist?</li>
-        <li>What causes delays?</li>
-        <li>How often does this happen?</li>
-        <li>How is it tracked today?</li>
-    </ul>
+        <!-- FINAL ADJUSTABLE NOTES BLOCK -->
+        <div class="block-spacing" contenteditable="true" placeholder="[Click here to add any final considerations or summary notes...]"></div>
 
-    <!-- 4. People & Roles -->
-    <h2>4. People & Roles (Who's Who)</h2>
-    <h3>Departments Involved</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Department</th>
-                <th>Responsibilities</th>
-                <th>Number of People</th>
-                <th>Pain Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>User Roles</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Role</th>
-                <th>Responsibilities</th>
-                <th>Uses Current Software?</th>
-                <th>Technical Skill</th>
-                <th>Needs Mobile Access?</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>External Parties</h3>
-    <p><em>Who interacts with the business?</em></p>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Customers</div>
-        <div class="checkbox-item"><input type="checkbox"> Vendors</div>
-        <div class="checkbox-item"><input type="checkbox"> Suppliers</div>
-        <div class="checkbox-item"><input type="checkbox"> Delivery Companies</div>
-        <div class="checkbox-item"><input type="checkbox"> Banks</div>
-        <div class="checkbox-item"><input type="checkbox"> Government</div>
-        <div class="checkbox-item"><input type="checkbox"> Contractors</div>
-        <div class="checkbox-item"><input type="checkbox"> Partners</div>
-    </div>
-    <p><strong>Details:</strong></p>
-    <div class="form-control"></div>
-
-    <!-- 5. Current Technology Landscape -->
-    <h2>5. Current Technology Landscape</h2>
-    <h3>Existing Software</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Tool/System</th>
-                <th>Purpose</th>
-                <th>Users</th>
-                <th>Likes</th>
-                <th>Dislikes</th>
-                <th>Replace or Keep?</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>Spreadsheets & Manual Files</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>File</th>
-                <th>Used For</th>
-                <th>Owner</th>
-                <th>Problems</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>Communication Tools</h3>
-    <p><em>Check all that apply.</em></p>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Email</div>
-        <div class="checkbox-item"><input type="checkbox"> WhatsApp</div>
-        <div class="checkbox-item"><input type="checkbox"> Slack</div>
-        <div class="checkbox-item"><input type="checkbox"> Microsoft Teams</div>
-        <div class="checkbox-item"><input type="checkbox"> Phone Calls</div>
-        <div class="checkbox-item"><input type="checkbox"> Paper Forms</div>
-        <div class="checkbox-item"><input type="checkbox"> Printed Documents</div>
-    </div>
-    <p><strong>Notes:</strong></p>
-    <div class="form-control"></div>
-
-    <h3>Existing Integrations</h3>
-    <p><em>Current integrations:</em></p>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Payment Gateway</div>
-        <div class="checkbox-item"><input type="checkbox"> ERP</div>
-        <div class="checkbox-item"><input type="checkbox"> CRM</div>
-        <div class="checkbox-item"><input type="checkbox"> Accounting</div>
-        <div class="checkbox-item"><input type="checkbox"> Inventory</div>
-        <div class="checkbox-item"><input type="checkbox"> HR</div>
-        <div class="checkbox-item"><input type="checkbox"> API Connections</div>
-    </div>
-    <p><strong>Describe:</strong></p>
-    <div class="form-control"></div>
-
-    <!-- 6. Pain Points, Bottlenecks & Drainers -->
-    <h2>6. Pain Points, Bottlenecks & Drainers</h2>
-    <h3>Biggest Daily Problems</h3>
-    <p><em>List everything slowing the business down.</em></p>
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 50%;">Problem</th>
-                <th style="width: 15%;">Frequency</th>
-                <th style="width: 25%;">Business Impact</th>
-                <th style="width: 10%;">Severity (1-5)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>Time Drains</h3>
-    <p><em>What takes the most time?</em></p>
-    <div class="text-line">[ ] </div>
-    <div class="text-line">[ ] </div>
-    <div class="text-line">[ ] </div>
-    <p><strong>Estimated hours wasted each week:</strong> ____________________</p>
-
-    <h3>Manual Work</h3>
-    <p><em>Which activities require repetitive manual work?</em></p>
-    <div class="text-line">[ ] </div>
-    <div class="text-line">[ ] </div>
-    <div class="text-line">[ ] </div>
-
-    <h3>Frequent Errors</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Error</th>
-                <th>Cause</th>
-                <th>Consequence</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:35px;"></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>Visibility Gaps</h3>
-    <p><em>What information is difficult to access?</em></p>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Inventory</div>
-        <div class="checkbox-item"><input type="checkbox"> Sales</div>
-        <div class="checkbox-item"><input type="checkbox"> Employee Performance</div>
-        <div class="checkbox-item"><input type="checkbox"> Customer Status</div>
-        <div class="checkbox-item"><input type="checkbox"> Financial Reports</div>
-        <div class="checkbox-item"><input type="checkbox"> Project Progress</div>
-        <div class="checkbox-item"><input type="checkbox"> Order Tracking</div>
-    </div>
-    <p><strong>Other:</strong></p>
-    <div class="form-control"></div>
-
-    <h3>Approval Bottlenecks</h3>
-    <p><em>Where does work usually stop waiting for someone?</em></p>
-    <div class="form-control"></div>
-
-    <!-- 7. Data & Information Flow -->
-    <h2>7. Data & Information Flow</h2>
-    <h3>Important Business Data</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Data Type</th>
-                <th>Where Stored?</th>
-                <th>Who Uses It?</th>
-                <th>Problems</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>Customers</td><td></td><td></td><td></td></tr>
-            <tr><td>Orders</td><td></td><td></td><td></td></tr>
-            <tr><td>Inventory</td><td></td><td></td><td></td></tr>
-            <tr><td>Invoices</td><td></td><td></td><td></td></tr>
-            <tr><td>Employees</td><td></td><td></td><td></td></tr>
-            <tr><td>Products</td><td></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>Reporting</h3>
-    <p><em>Current reports used:</em></p>
-    <div class="text-line">[ ] </div>
-    <div class="text-line">[ ] </div>
-    <p><strong>Missing reports:</strong></p>
-    <div class="form-control"></div>
-
-    <h3>KPIs Currently Tracked</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>KPI</th>
-                <th>Current Method</th>
-                <th>Frequency</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:35px;"></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <!-- 8. Vision & Desired Future State -->
-    <h2>8. Vision & Desired Future State</h2>
-    <h3>Why now?</h3>
-    <p>What prompted this project?</p>
-    <div class="form-control"></div>
-
-    <h3>Top Business Goals</h3>
-    <p><em>Rank by priority.</em></p>
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 20%;">Priority</th>
-                <th style="width: 80%;">Goal</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td><strong>#1</strong></td><td></td></tr>
-            <tr><td><strong>#2</strong></td><td></td></tr>
-            <tr><td><strong>#3</strong></td><td></td></tr>
-            <tr><td><strong>#4</strong></td><td></td></tr>
-            <tr><td><strong>#5</strong></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>If this software is successful...</h3>
-    <p><em>Complete these statements.</em></p>
-    <p>We will spend less time on... <span class="text-line" style="display:inline-block; width:70%; margin-bottom:0;"></span></p>
-    <p>We will automate... <span class="text-line" style="display:inline-block; width:75%; margin-bottom:0;"></span></p>
-    <p>Our employees will... <span class="text-line" style="display:inline-block; width:74%; margin-bottom:0;"></span></p>
-    <p>Our customers will... <span class="text-line" style="display:inline-block; width:74%; margin-bottom:0;"></span></p>
-    <p>Management will finally be able to... <span class="text-line" style="display:inline-block; width:63%; margin-bottom:0;"></span></p>
-    <p>We will stop using... <span class="text-line" style="display:inline-block; width:75%; margin-bottom:0;"></span></p>
-
-    <h3>Dream Workflow</h3>
-    <p><em>"If there were no technical limitations, how would you want the process to work?"</em></p>
-    <div class="form-control"></div>
-
-    <!-- 9. Success Metrics (KPIs) -->
-    <h2>9. Success Metrics (KPIs)</h2>
-    <p><em>How will success be measured?</em></p>
-    <table>
-        <thead>
-            <tr>
-                <th>Metric</th>
-                <th>Current</th>
-                <th>Target</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>Processing Time</td><td></td><td></td></tr>
-            <tr><td>Revenue</td><td></td><td></td></tr>
-            <tr><td>Customer Satisfaction</td><td></td><td></td></tr>
-            <tr><td>Employee Productivity</td><td></td><td></td></tr>
-            <tr><td>Error Rate</td><td></td><td></td></tr>
-            <tr><td>Operational Cost</td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>Success Checklist</h3>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Reduce manual work</div>
-        <div class="checkbox-item"><input type="checkbox"> Faster approvals</div>
-        <div class="checkbox-item"><input type="checkbox"> Better reporting</div>
-        <div class="checkbox-item"><input type="checkbox"> Better customer experience</div>
-        <div class="checkbox-item"><input type="checkbox"> Lower operational costs</div>
-        <div class="checkbox-item"><input type="checkbox"> Improved visibility</div>
-        <div class="checkbox-item"><input type="checkbox"> Fewer mistakes</div>
-        <div class="checkbox-item"><input type="checkbox"> Easier employee onboarding</div>
-        <div class="checkbox-item" style="width:100%;"><input type="checkbox"> Other: _________________________________________</div>
-    </div>
-
-    <!-- 10. Constraints, Risks & Concerns -->
-    <h2>10. Constraints, Risks & Concerns</h2>
-    <h3>Budget Expectations</h3>
-    <div class="form-control"></div>
-
-    <h3>Timeline Expectations</h3>
-    <div class="form-control"></div>
-
-    <h3>Biggest Concerns</h3>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Employees resisting change</div>
-        <div class="checkbox-item"><input type="checkbox"> Data migration</div>
-        <div class="checkbox-item"><input type="checkbox"> Downtime</div>
-        <div class="checkbox-item"><input type="checkbox"> Budget</div>
-        <div class="checkbox-item"><input type="checkbox"> Security</div>
-        <div class="checkbox-item"><input type="checkbox"> Training</div>
-        <div class="checkbox-item"><input type="checkbox"> Integration issues</div>
-    </div>
-    <p><strong>Other:</strong></p>
-    <div class="form-control"></div>
-
-    <h3>Regulatory Requirements</h3>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> GDPR</div>
-        <div class="checkbox-item"><input type="checkbox"> HIPAA</div>
-        <div class="checkbox-item"><input type="checkbox"> ISO</div>
-        <div class="checkbox-item"><input type="checkbox"> PCI</div>
-        <div class="checkbox-item"><input type="checkbox"> Local Regulations</div>
-    </div>
-    <p><strong>Details:</strong></p>
-    <div class="form-control"></div>
-
-    <!-- 11. Technical Discovery -->
-    <h2>11. Technical Discovery</h2>
-    <h3>Devices Used</h3>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Desktop</div>
-        <div class="checkbox-item"><input type="checkbox"> Laptop</div>
-        <div class="checkbox-item"><input type="checkbox"> Tablet</div>
-        <div class="checkbox-item"><input type="checkbox"> Mobile</div>
-        <div class="checkbox-item"><input type="checkbox"> Barcode Scanner</div>
-        <div class="checkbox-item"><input type="checkbox"> IoT Devices</div>
-        <div class="checkbox-item"><input type="checkbox"> POS System</div>
-    </div>
-
-    <h3>Internet Environment</h3>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Always Online</div>
-        <div class="checkbox-item"><input type="checkbox"> Offline Required</div>
-        <div class="checkbox-item"><input type="checkbox"> Low Bandwidth</div>
-        <div class="checkbox-item"><input type="checkbox"> Multiple Branches</div>
-    </div>
-
-    <h3>Authentication Needs</h3>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Email Login</div>
-        <div class="checkbox-item"><input type="checkbox"> Google Login</div>
-        <div class="checkbox-item"><input type="checkbox"> Microsoft Login</div>
-        <div class="checkbox-item"><input type="checkbox"> Two-Factor Authentication</div>
-        <div class="checkbox-item"><input type="checkbox"> Role-Based Permissions</div>
-        <div class="checkbox-item"><input type="checkbox"> Single Sign-On</div>
-    </div>
-
-    <h3>Integrations Required</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>System</th>
-                <th>Existing?</th>
-                <th>API Available?</th>
-                <th>Priority</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <!-- 12. Feature Brainstorming -->
-    <h2>12. Feature Brainstorming (Only After Understanding the Business)</h2>
-    <p style="color: #b85d43;"><strong>Important:</strong> Fill this section only after the business workflow and pain points are fully understood.</p>
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 40%;">Problem</th>
-                <th style="width: 40%;">Suggested Solution</th>
-                <th style="width: 20%;">Priority (High / Med / Low)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:40px;"></td><td></td><td></td></tr>
-            <tr><td style="height:40px;"></td><td></td><td></td></tr>
-            <tr><td style="height:40px;"></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <!-- 13. Meeting Notes & Brainstorm -->
-    <h2>13. Meeting Notes & Brainstorm</h2>
-    <h3>Raw Notes</h3>
-    <div class="form-control" style="min-height: 120px;">[Insert brainstorming here...]</div>
-
-    <h3>Interesting Quotes from Client</h3>
-    <div class="text-line">"[Insert quote]"</div>
-    <div class="text-line">"[Insert quote]"</div>
-
-    <h3>Assumptions to Validate</h3>
-    <div class="text-line">[ ] </div>
-    <div class="text-line">[ ] </div>
-
-    <h3>Open Questions</h3>
-    <div class="text-line">[ ] </div>
-    <div class="text-line">[ ] </div>
-
-    <!-- 14. Action Items & Next Steps -->
-    <h2>14. Action Items & Next Steps</h2>
-    <h3>Copper Cortex Team</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Task</th>
-                <th>Owner</th>
-                <th>Due Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>Client</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Task</th>
-                <th>Owner</th>
-                <th>Due Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-            <tr><td style="height:35px;"></td><td></td><td></td><td></td></tr>
-        </tbody>
-    </table>
-
-    <h3>Required Documents</h3>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Existing process documentation</div>
-        <div class="checkbox-item"><input type="checkbox"> Organizational chart</div>
-        <div class="checkbox-item"><input type="checkbox"> Current reports</div>
-        <div class="checkbox-item"><input type="checkbox"> Sample spreadsheets</div>
-        <div class="checkbox-item"><input type="checkbox"> Database export</div>
-        <div class="checkbox-item"><input type="checkbox"> User list</div>
-        <div class="checkbox-item"><input type="checkbox"> API documentation</div>
-        <div class="checkbox-item"><input type="checkbox"> Branding assets</div>
-        <div class="checkbox-item"><input type="checkbox"> Compliance requirements</div>
-        <div class="checkbox-item" style="width:100%;"><input type="checkbox"> Other: _________________________________________</div>
-    </div>
-
-    <!-- 15. Discovery Summary -->
-    <h2>15. Discovery Summary (Complete After the Meeting)</h2>
-    <h3>Business in One Sentence</h3>
-    <div class="form-control">[Summarize the client's business in one clear sentence.]</div>
-
-    <h3>Top Three Business Problems</h3>
-    <div class="text-line">1. </div>
-    <div class="text-line">2. </div>
-    <div class="text-line">3. </div>
-
-    <h3>Biggest Opportunity</h3>
-    <div class="form-control"></div>
-
-    <h3>Recommended Solution Direction</h3>
-    <p><em>High-level recommendation only—not detailed features.</em></p>
-    <div class="form-control"></div>
-
-    <h3>Immediate Next Steps</h3>
-    <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox"> Internal Copper Cortex debrief</div>
-        <div class="checkbox-item"><input type="checkbox"> Process analysis</div>
-        <div class="checkbox-item"><input type="checkbox"> Technical feasibility assessment</div>
-        <div class="checkbox-item"><input type="checkbox"> Solution architecture workshop</div>
-        <div class="checkbox-item"><input type="checkbox"> Prepare proposal</div>
-        <div class="checkbox-item"><input type="checkbox"> Scope estimation</div>
-        <div class="checkbox-item"><input type="checkbox"> Client follow-up meeting</div>
-        <div class="checkbox-item"><input type="checkbox"> Proof of concept (if required)</div>
-    </div>
-
-    <div class="purpose-box" style="margin-top:40px; border-left-color: #2c3e50; background-color: #f8fafc;">
-        <p style="color: #1a2a3a; font-style: normal; font-weight: 600; margin-bottom: 10px;">Copper Cortex Discovery Checklist (Quick Reference)</p>
-        <p style="font-style: normal; font-size: 13px; color: #334155; line-height: 1.6;">
-            Before proposing any software solution, confirm that you can confidently answer YES to each question:<br>
-            ⬜ Do we understand exactly how the business makes money?<br>
-            ⬜ Have we mapped the complete end-to-end workflow?<br>
-            ⬜ Do we know every role involved in each process?<br>
-            ⬜ Have we identified the major bottlenecks and inefficiencies?<br>
-            ⬜ Do we understand the current technology ecosystem?<br>
-            ⬜ Have we documented all manual workarounds?<br>
-            ⬜ Do we know what information the client struggles to access?<br>
-            ⬜ Have we defined measurable success metrics (KPIs)?<br>
-            ⬜ Do we understand technical, regulatory, and organizational constraints?<br>
-            ⬜ Have we identified required integrations and dependencies?<br>
-            ⬜ Do we understand what "success" means from the client's perspective?<br>
-            ⬜ Can we explain the client's business and pain points without mentioning software?
-        </p>
-    </div>
-
-    <div class="footer-note">
-        Guiding Principle: At Copper Cortex, software is never the starting point. We first understand the business, then design processes, and only then define the software that best supports those processes.
-    </div>
+        <div class="actions">
+            <button type="button" class="btn btn-secondary" onclick="window.print()">Print / Save as PDF</button>
+            <button type="reset" class="btn btn-primary" style="background-color: #ef4444;">Clear Form</button>
+        </div>
+    </form>
 </div>
+
+<script>
+    let workflowStepCount = 2;
+    let detailedStepRowCount = 1;
+
+    function addNewWorkflowStep() {
+        workflowStepCount++;
+        const strip = document.getElementById('workflowVisualStrip');
+        const arrow = document.createElement('div');
+        arrow.className = 'workflow-arrow';
+        arrow.innerHTML = '&rarr;';
+        
+        const stepBox = document.createElement('div');
+        stepBox.className = 'workflow-step-box';
+        stepBox.innerHTML = `
+            <span class="step-label">Step ${workflowStepCount}</span>
+            <input type="text" placeholder="Next phase...">
+        `;
+        strip.appendChild(arrow);
+        strip.appendChild(stepBox);
+    }
+
+    function addNewTableRow(tableId, isNumbered) {
+        detailedStepRowCount++;
+        const tableBody = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+        const newRow = tableBody.insertRow();
+        newRow.innerHTML = `
+            <td class="text-center"><b>${detailedStepRowCount}</b></td>
+            <td><input type="text" placeholder=""></td>
+            <td><input type="text" placeholder=""></td>
+            <td>
+                <div class="grow-wrap">
+                    <textarea placeholder="" oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                </div>
+            </td>
+        `;
+    }
+
+    function addNewEcosystemRow() {
+        const tableBody = document.getElementById('ecosystemTable').getElementsByTagName('tbody')[0];
+        const newRow = tableBody.insertRow();
+        newRow.innerHTML = `
+            <td><input type="text" placeholder="e.g. Partners, Courier" style="font-weight:bold;"></td>
+            <td>
+                <div class="grow-wrap">
+                    <textarea placeholder="Describe role connection..." oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                </div>
+            </td>
+        `;
+    }
+
+    function addNewPeopleRow() {
+        const tableBody = document.getElementById('peopleBreakdownTable').getElementsByTagName('tbody')[0];
+        const newRow = tableBody.insertRow();
+        newRow.innerHTML = `
+            <td><input type="text" placeholder=""></td>
+            <td><input type="text" placeholder=""></td>
+            <td>
+                <div class="grow-wrap">
+                    <textarea placeholder="" oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                </div>
+            </td>
+            <td>
+                <select>
+                    <option value="">Select...</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </td>
+            <td>
+                <select>
+                    <option value="">Select...</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </td>
+            <td><input type="text" placeholder=""></td>
+        `;
+    }
+
+    function addNewPainPointRow() {
+        const tableBody = document.getElementById('painPointsTable').getElementsByTagName('tbody')[0];
+        const newRow = tableBody.insertRow();
+        newRow.innerHTML = `
+            <td><input type="text" placeholder=""></td>
+            <td>
+                <div class="grow-wrap">
+                    <textarea placeholder="" oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                </div>
+            </td>
+            <td>
+                <div class="grow-wrap">
+                    <textarea placeholder="" oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                </div>
+            </td>
+            <td>
+                <select class="text-center">
+                    <option value="">-</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
+        `;
+    }
+</script>
 
 </body>
 </html>
